@@ -49,3 +49,14 @@ resource:
     useCertManager: true
     certificateKeySecretRef: tls-certificate
     caCertificateSecretRef: tls-ca-key-pair
+
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+          - key: name
+            operator: In
+            values:
+              - {{ .Values.operator.name }}
+      topologyKey: kubernetes.io/hostname
